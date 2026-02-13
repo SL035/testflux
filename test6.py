@@ -38,7 +38,7 @@ client.execute(
 client.execute(
     "INSERT INTO warehouses (id, product, quantity) VALUES",
     [
-        (3, 1, 99),
+        (3, 1, 99), # ЕДИНСТВЕННЫЙ источник: склад 3 имеет 99 ед. товара 1
     ]
 )
 
@@ -57,8 +57,8 @@ client.execute(
 client.execute(
     "INSERT INTO requests (id, warehouse_id, product, quantity, penalty_base) VALUES",
     [
-        (1, 1, 1, 75, 1),
-        (2, 5, 1, 25, 2),
+        (1, 1, 1, 75, 1), # Запрос 1: склад 1 ← 75 ед. (базовый штраф = 1)
+        (2, 5, 1, 25, 2), # Запрос 2: склад 5 ← 25 ед. (базовый штраф = 2)
     ]
 )
 

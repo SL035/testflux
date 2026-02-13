@@ -38,8 +38,8 @@ client.execute(
 client.execute(
     "INSERT INTO warehouses (id, product, quantity) VALUES",
     [
-        (1, 1, 100),
-        (2, 2, 100),
+        (1, 1, 100), # Склад 1: 100 единиц ТОВАРА 1
+        (2, 2, 100), # Склад 2: 100 единиц ТОВАРА 2
     ]
 )
 
@@ -58,8 +58,8 @@ client.execute(
 client.execute(
     "INSERT INTO requests (id, warehouse_id, product, quantity, penalty_base) VALUES",
     [
-        (1, 1, 2, 100, 1),
-        (2, 2, 1, 100, 2),
+        (1, 1, 2, 100, 1), # Запрос 1: склад 1 просит 100 ед. товара 2 (базовый штраф = 1)
+        (2, 2, 1, 100, 2), # Запрос 2: склад 2 просит 100 ед. товара 1 (базовый штраф = 2)
     ]
 )
 
@@ -76,7 +76,7 @@ client.execute(
 client.execute(
     "INSERT INTO warehouses_links (from_warehouse, to_warehouse, distance) VALUES",
     [
-        (1, 2, 1),
-        (2, 1, 1),
+        (1, 2, 1), # Склад 1 → Склад 2 (расстояние = 1)
+        (2, 1, 1), # Склад 2 → Склад 1 (расстояние = 1)
     ]
 )
