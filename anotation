@@ -1,0 +1,29 @@
+# 1. Остановить старый контейнер (если есть)
+docker stop clickhouse-server 2>/dev/null && docker rm clickhouse-server 2>/dev/null
+
+# 2. Запустить стабильную версию 23.8
+docker run -d \
+  --name clickhouse-server \
+  -p 9000:9000 \
+  -p 8123:8123 \
+  --ulimit nofile=262144:262144 \
+  clickhouse/clickhouse-server:23.8
+
+# 3. Дождаться готовности (30 секунд)
+echo "Ждём инициализации ClickHouse..."
+sleep 30
+
+# 4. Проверить готовность
+if docker exec clickhouse-server clickhouse-client --query="SELECT 1" 2>/dev/null | grep -q "1"; then
+    echo "✅ ClickHouse готов"
+else
+    echo "❌ ClickHouse не отвечает. Смотрим логи:"
+    docker logs clickhouse-server | tail -20
+    exit 1
+fi
+
+# 8. Запустить инициализацию
+python init_data.py | test*.py
+
+# 9. Запустить алгоритм
+python greedy.py | greedy_future.py
